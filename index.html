@@ -361,7 +361,7 @@
 <div class="admonition example">
 <p class="admonition-title">Example</p>
 <p>To send a push notification with the title "Test", message "This is a test" and urgency "normal" run the following command:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>$<span class="w"> </span>python<span class="w"> </span>main.py<span class="w"> </span>--title<span class="w"> </span><span class="s2">&quot;Test&quot;</span><span class="w"> </span>--message<span class="w"> </span><span class="s2">&quot;This is a test&quot;</span><span class="w"> </span>--urgency<span class="w"> </span><span class="s2">&quot;normal&quot;</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>$<span class="w"> </span>python<span class="w"> </span>main.py<span class="w"> </span>--title<span class="w"> </span><span class="s2">&quot;Test&quot;</span><span class="w"> </span>--message<span class="w"> </span><span class="s2">&quot;This is a test&quot;</span><span class="w"> </span>--ttl<span class="w"> </span><span class="m">3600</span><span class="w"> </span>--urgency<span class="w"> </span><span class="s2">&quot;normal&quot;</span>
 </span></code></pre></div>
 </div>
 <h2 id="command-line-arguments">Command line arguments</h2>
@@ -384,6 +384,11 @@
 <td><code>--message</code></td>
 <td><code>-m</code></td>
 <td>The message of the push notification</td>
+</tr>
+<tr>
+<td><code>--ttl</code></td>
+<td><code>-l</code></td>
+<td>The time to live of the push notification</td>
 </tr>
 <tr>
 <td><code>--urgency</code></td>
