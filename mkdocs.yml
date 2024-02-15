@@ -1,0 +1,23 @@
+site_name: Web Push Tester
+theme:
+  name: material
+  features:
+    - navigation.instant
+
+repo_url: https://github.com/schleising/web-push-tester
+
+nav:
+  - Web Push Tester: index.md
+  # - Main: main.md
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+
+plugins:
+  - mkdocstrings
