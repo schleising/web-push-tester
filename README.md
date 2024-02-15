@@ -14,5 +14,15 @@ This is a simple web push notification tester
     python3 main.py --title "Title" --message "Message" --urgency "normal"
     ```
 
+## Command line arguments
+
+The following command line arguments are available:
+
+Option|Short Option|Description
+-|-|-
+`--title`|`-t`|The title of the push notification
+`--message`|`-m`|The message of the push notification
+`--urgency`|`-u`|The urgency of the push notification
+
 ## Documentation
 The documentation for this project can be found [here](https://schleising.github.io/web-push-tester/)

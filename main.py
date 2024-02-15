@@ -6,6 +6,16 @@ Example:
     To send a push notification with the title "Test", message "This is a test" and urgency "normal" run the following command:
     
             $ python main.py --title "Test" --message "This is a test" --urgency "normal"
+
+## Command line arguments
+
+The following command line arguments are available:
+
+Option|Short Option|Description
+-|-|-
+`--title`|`-t`|The title of the push notification
+`--message`|`-m`|The message of the push notification
+`--urgency`|`-u`|The urgency of the push notification
 """
 
 from datetime import datetime
