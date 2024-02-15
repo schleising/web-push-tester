@@ -78,9 +78,9 @@ The Application Server Key is the encoded version of the public key in `public_k
 {
     "host": "localhost",
     "port": 27017,
-    "username": "username",
-    "password": "password",
-    "database": "database"
+    "connection_timeout": 1000,
+    "database": "database",
+    "collection": "collection",
 }
 ```
 
