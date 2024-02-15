@@ -4,7 +4,7 @@ This script sends a push notification to push subscriptions in a MongoDB databas
     To send a push notification with the title "Test", message "This is a test" and urgency "normal" run the following command:
     
     ```bash
-    $ python main.py --title "Test" --message "This is a test" --urgency "normal"
+    $ python main.py --title "Test" --message "This is a test" --ttl 3600 --urgency "normal"
     ```
 
 ## Command line arguments
@@ -15,6 +15,7 @@ Option|Short Option|Description
 -|-|-
 `--title`|`-t`|The title of the push notification
 `--message`|`-m`|The message of the push notification
+`--ttl`|`-l`|The time to live of the push notification
 `--urgency`|`-u`|The urgency of the push notification
 
 ## File formats and database model

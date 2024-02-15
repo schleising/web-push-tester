@@ -78,7 +78,7 @@ def get_push_subscriptions() -> list[Subscription] | None:
 
     # Send a test ping to the server
     try:
-        print(client.server_info())
+        print(f"[blue]MongoDB Version: {client.server_info()['version']}[/]")
     except Exception as ex:
         print(f"[red]Failed to connect to the database: {ex}[/]")
         return None
@@ -100,7 +100,11 @@ def get_push_subscriptions() -> list[Subscription] | None:
 
 
 def send_push_notification(
-    subscription: Subscription, title: str, message: str, urgency: str = "normal"
+    subscription: Subscription,
+    title: str,
+    message: str,
+    ttl: int = 3600,
+    urgency: str = "normal",
 ) -> Response | None:
     """Send a push notification to a subscription
 
@@ -108,6 +112,7 @@ def send_push_notification(
         subscription (Subscription): The subscription to send the push notification to
         title (str): The title of the push notification
         message (str): The message of the push notification
+        ttl (int, optional): The time to live of the push notification. Defaults to 3600.
         urgency (str, optional): The urgency of the notification. Defaults to "normal".
 
     Returns:
@@ -132,7 +137,10 @@ def send_push_notification(
                     "badge": "/icons/tools/converter/badge-192x192.png",
                 }
             ),
-            headers={"Urgency": urgency},
+            headers={
+                "Urgency": urgency,
+                "TTL": str(ttl),
+            },
             vapid_private_key="secrets/private_key.pem",
             vapid_claims=claims,
         )
@@ -151,6 +159,7 @@ def send_push_notification(
 def send(
     title: Annotated[str, typer.Option("--title", "-t")] = "Test",
     message: Annotated[str, typer.Option("--message", "-m")] = "This is a test",
+    ttl: Annotated[int, typer.Option("--ttl", "-l")] = 3600,
     urgency: Annotated[str, typer.Option("--urgency", "-u")] = "normal",
 ):
     """Send a push notification to the push subscriptions
@@ -158,6 +167,7 @@ def send(
     Args:
         title (str, optional): The title of the push notification. Defaults to "Test".
         message (str, optional): The message of the push notification. Defaults to "This is a test".
+        ttl (int, optional): The time to live of the push notification. Defaults to 3600.
         urgency (str, optional): The urgency of the push notification. Defaults to "normal".
     """
     # Get the subscriptions
@@ -177,6 +187,7 @@ def send(
     # Print the title, message and urgency
     print(f"[blue]Title: {title}[/]")
     print(f"[blue]Message: {message}[/]")
+    print(f"[blue]Time to Live: {ttl}[/]")
     print(f"[blue]Urgency: {urgency}[/]")
     print()
 
@@ -193,6 +204,7 @@ def send(
             subscription,
             title,
             f"{current_time}\n{message}\nUrgency: {urgency}",
+            ttl,
             urgency,
         )
 
