@@ -8,7 +8,7 @@ repo_url: https://github.com/schleising/web-push-tester
 
 nav:
   - Web Push Tester: index.md
-  # - Main: main.md
+  - Code: main.md
 
 markdown_extensions:
   - pymdownx.highlight:
@@ -18,6 +18,8 @@ markdown_extensions:
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.superfences
+  - admonition
+  - pymdownx.details
 
 plugins:
   - mkdocstrings

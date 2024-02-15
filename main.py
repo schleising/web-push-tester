@@ -1,21 +1,6 @@
-"""Send a push notification to the push subscriptions
+"""# main.py
 
-This script sends a push notification to the push subscriptions in the database
-
-Example:
-    To send a push notification with the title "Test", message "This is a test" and urgency "normal" run the following command:
-    
-            $ python main.py --title "Test" --message "This is a test" --urgency "normal"
-
-## Command line arguments
-
-The following command line arguments are available:
-
-Option|Short Option|Description
--|-|-
-`--title`|`-t`|The title of the push notification
-`--message`|`-m`|The message of the push notification
-`--urgency`|`-u`|The urgency of the push notification
+Send a push notification to the push subscriptions
 """
 
 from datetime import datetime
@@ -31,7 +16,7 @@ from requests import Response
 
 
 class DbInfo(BaseModel):
-    """Information about the database
+    """Information about the Mongodb database
 
     Attributes:
         host (str): The host of the database
