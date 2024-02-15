@@ -135,6 +135,7 @@ def send_push_notification(
                     "body": message,
                     "icon": "/icons/tools/converter/android-chrome-192x192.png",
                     "badge": "/icons/tools/converter/badge-192x192.png",
+                    "url": "/tools/converter/",
                 }
             ),
             headers={
