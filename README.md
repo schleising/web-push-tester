@@ -14,7 +14,7 @@ You need to have your notification subscriptions in a Mongodb database. The data
     - See the documentation for more information on the contents of these files
 4. Run the following command to send a push notification:
     ```bash
-    python3 main.py --title "Title" --message "Message" --urgency "normal"
+    python3 main.py --title "Title" --message "Message" --ttl 3600 --urgency "normal"
     ```
 
 ## Command line arguments
@@ -25,6 +25,7 @@ Option|Short Option|Description
 -|-|-
 `--title`|`-t`|The title of the push notification
 `--message`|`-m`|The message of the push notification
+`--ttl`|`-l`|The time to live of the push notification
 `--urgency`|`-u`|The urgency of the push notification
 
 ## Documentation
