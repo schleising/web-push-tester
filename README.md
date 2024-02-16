@@ -27,6 +27,8 @@ Option|Short Option|Description
 `--message`|`-m`|The message of the push notification
 `--ttl`|`-l`|The time to live of the push notification
 `--urgency`|`-u`|The urgency of the push notification
+`--require-interaction`|`-r`|Whether the push notification requires interaction
+`--push_data_file`|`-p`|The file containing the push data, badge, icon and url
 
 ## Documentation
 The documentation for this project can be found [here](https://schleising.github.io/web-push-tester/)

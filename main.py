@@ -5,6 +5,7 @@ Send a push notification to the push subscriptions
 
 from datetime import datetime
 import json
+from pathlib import Path
 from typing import Annotated
 
 import typer
@@ -59,6 +60,20 @@ class Subscription(BaseModel):
     keys: Keys
 
 
+
+class NotificationData(BaseModel):
+    """Data for a push notification
+
+    Attributes:
+        icon (str): The icon of the push notification
+        badge (str): The badge of the push notification
+        url (str): The url of the push notification
+    """
+    icon: str
+    badge: str
+    url: str
+
+
 def get_push_subscriptions() -> list[Subscription] | None:
     """Get the push subscriptions from the database
 
@@ -105,6 +120,8 @@ def send_push_notification(
     message: str,
     ttl: int = 3600,
     urgency: str = "normal",
+    require_interaction: bool = False,
+    data_file: Path = Path("push_data/push_data.json"),
 ) -> Response | None:
     """Send a push notification to a subscription
 
@@ -114,6 +131,8 @@ def send_push_notification(
         message (str): The message of the push notification
         ttl (int, optional): The time to live of the push notification. Defaults to 3600.
         urgency (str, optional): The urgency of the notification. Defaults to "normal".
+        require_interaction (bool, optional): Whether the push notification requires interaction. Defaults to False.
+        data_file (Path, optional): The path to the file with the notification data. Defaults to Path("push_data/push_data.json").
 
     Returns:
         Response | None: The response from the push notification or None if there was an error
@@ -125,6 +144,10 @@ def send_push_notification(
     with open("secrets/claims.json", "r") as file:
         claims = json.load(file)
 
+    # Read the notification data
+    with open(data_file, "r") as file:
+        notification_data = NotificationData.model_validate_json(file.read())
+
     # Send the push notification
     try:
         response = webpush(
@@ -133,15 +156,16 @@ def send_push_notification(
                 {
                     "title": title,
                     "body": message,
-                    "icon": "/icons/tools/converter/android-chrome-192x192.png",
-                    "badge": "/icons/tools/converter/badge-192x192.png",
-                    "url": "/tools/converter/",
+                    "icon": notification_data.icon,
+                    "badge": notification_data.badge,
+                    "url": notification_data.url,
+                    "requireInteraction": require_interaction,
                 }
             ),
             headers={
                 "Urgency": urgency,
-                "TTL": str(ttl),
             },
+            ttl=ttl,
             vapid_private_key="secrets/private_key.pem",
             vapid_claims=claims,
         )
@@ -162,6 +186,8 @@ def send(
     message: Annotated[str, typer.Option("--message", "-m")] = "This is a test",
     ttl: Annotated[int, typer.Option("--ttl", "-l")] = 3600,
     urgency: Annotated[str, typer.Option("--urgency", "-u")] = "normal",
+    require_interaction: Annotated[bool, typer.Option("--require-interaction", "-r")] = False,
+    push_data_file: Annotated[str, typer.Option("--push-data-file", "-p")] = "push_data/push_data.json",
 ):
     """Send a push notification to the push subscriptions
 
@@ -170,7 +196,16 @@ def send(
         message (str, optional): The message of the push notification. Defaults to "This is a test".
         ttl (int, optional): The time to live of the push notification. Defaults to 3600.
         urgency (str, optional): The urgency of the push notification. Defaults to "normal".
+        require_interaction (bool, optional): Whether the push notification requires interaction. Defaults to False.
+        push_data_file (str, optional): The path to the file with the notification data. Defaults to "push_data/push_data.json".
     """
+    # Convert the push data file to a Path and check if it exists
+    push_data_file_path = Path(push_data_file)
+
+    if not push_data_file_path.exists():
+        print(f"[red]The push data file {push_data_file} does not exist[/]")
+        return
+
     # Get the subscriptions
     subscriptions = get_push_subscriptions()
 
@@ -190,6 +225,8 @@ def send(
     print(f"[blue]Message: {message}[/]")
     print(f"[blue]Time to Live: {ttl}[/]")
     print(f"[blue]Urgency: {urgency}[/]")
+    print(f"[blue]Require Interaction: {require_interaction}[/]")
+    print(f"[blue]Push Data File: {push_data_file}[/]")
     print()
 
     # Send a push notification to each subscription
@@ -207,6 +244,8 @@ def send(
             f"{current_time}\n{message}\nUrgency: {urgency}",
             ttl,
             urgency,
+            require_interaction,
+            push_data_file_path,
         )
 
         if response is not None:
