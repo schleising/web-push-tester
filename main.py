@@ -93,7 +93,7 @@ def get_push_subscriptions() -> list[Subscription] | None:
 
     # Send a test ping to the server
     try:
-        print(f"[blue]MongoDB Version: {client.server_info()['version']}[/]")
+        print(f"[blue]MongoDB Version     : {client.server_info()['version']}[/]")
     except Exception as ex:
         print(f"[red]Failed to connect to the database: {ex}[/]")
         return None
@@ -217,16 +217,16 @@ def send(
     current_time = datetime.now().strftime("%H:%M:%S")
 
     # Print the current time
-    print(f"[blue]Current Time: {current_time}[/]")
+    print(f"[blue]Current Time        : {current_time}[/]")
     print()
 
     # Print the title, message and urgency
-    print(f"[blue]Title: {title}[/]")
-    print(f"[blue]Message: {message}[/]")
-    print(f"[blue]Time to Live: {ttl}[/]")
-    print(f"[blue]Urgency: {urgency}[/]")
-    print(f"[blue]Require Interaction: {require_interaction}[/]")
-    print(f"[blue]Push Data File: {push_data_file}[/]")
+    print(f"[blue]Title               : {title}[/]")
+    print(f"[blue]Message             : {message}[/]")
+    print(f"[blue]Time to Live        : {ttl}[/]")
+    print(f"[blue]Urgency             : {urgency}[/]")
+    print(f"[blue]Require Interaction : {require_interaction}[/]")
+    print(f"[blue]Push Data File      : {push_data_file}[/]")
     print()
 
     # Send a push notification to each subscription
@@ -234,8 +234,8 @@ def send(
         # Print the subscription
         print(f"[blue]Sending push notification to {subscription.endpoint}[/]")
         print()
-        print(subscription)
-        print()
+        # print(subscription)
+        # print()
 
         # Send the push notification
         response = send_push_notification(
