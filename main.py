@@ -14,6 +14,7 @@ from pydantic import BaseModel
 from pymongo import MongoClient
 from pywebpush import webpush, WebPushException
 from requests import Response
+from requests.status_codes import codes
 
 
 class DbInfo(BaseModel):
@@ -58,7 +59,6 @@ class Subscription(BaseModel):
     endpoint: str
     expirationTime: str | None
     keys: Keys
-
 
 
 class NotificationData(BaseModel):
@@ -178,6 +178,20 @@ def send_push_notification(
     except WebPushException as ex:
         # Print the exception
         print(f"WebPushException: {ex}")
+
+        if ex.response is not None:
+            # Print the response
+            print(f"[red]Response: {ex.response}[/]")
+            print(f"[red]Status code: {ex.response.status_code}")
+            print(f"[red]Reason: {ex.response.reason}[/]")
+            print(f"[red]Content: {ex.response.content}[/]")
+            print(f"[red]Text: {ex.response.text}[/]")
+
+            if ex.response.status_code == codes.gone:
+                # Simulate deleting the subscription if it is gone
+                print(f"[red]Deleting subscription {subscription.endpoint}[/]")
+                return ex.response
+
         return None
 
 
