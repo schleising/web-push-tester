@@ -69,6 +69,7 @@ class NotificationData(BaseModel):
         badge (str): The badge of the push notification
         url (str): The url of the push notification
     """
+
     icon: str
     badge: str
     url: str
@@ -200,8 +201,12 @@ def send(
     message: Annotated[str, typer.Option("--message", "-m")] = "This is a test",
     ttl: Annotated[int, typer.Option("--ttl", "-l")] = 3600,
     urgency: Annotated[str, typer.Option("--urgency", "-u")] = "normal",
-    require_interaction: Annotated[bool, typer.Option("--require-interaction", "-r")] = False,
-    push_data_file: Annotated[str, typer.Option("--push-data-file", "-p")] = "push_data/push_data.json",
+    require_interaction: Annotated[
+        bool, typer.Option("--require-interaction", "-r")
+    ] = False,
+    push_data_file: Annotated[
+        str, typer.Option("--push-data-file", "-p")
+    ] = "push_data/push_data.json",
 ):
     """Send a push notification to the push subscriptions
 
